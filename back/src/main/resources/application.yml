@@ -1,0 +1,68 @@
+server:
+  port: 8080
+  forward-headers-strategy: native
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.data.redis.autoconfigure.DataRedisAutoConfiguration
+      - org.springframework.boot.session.autoconfigure.SessionAutoConfiguration
+  application:
+    name: back
+  config:
+    import: optional:file:.env[.properties]
+  profiles:
+    active: dev
+  output:
+    ansi:
+      enabled: always
+  datasource:
+    hikari:
+      auto-commit: false
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        use_sql_comments: true
+        default_batch_fetch_size: 100
+    open-in-view: false
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: TRACE
+    org.hibernate.orm.jdbc.extract: TRACE
+    org.springframework.transaction.interceptor: TRACE
+    com.back: DEBUG
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+      show-components: never
+      group:
+        readiness:
+          # ? "???" ?? + DB ???? ???? Ready
+          include: readinessState,db
+        liveness:
+          # ? "????"?(?? ??? ?? ??)
+          include: livenessState,ping
+custom:
+  dev:
+    cookieDomain: localhost
+    frontUrl: "http://${custom.dev.cookieDomain}:3000"
+    backUrl: "http://${custom.dev.cookieDomain}:${server.port}"
+  prod:
+    cookieDomain: p-14115-1.oa.gg
+    frontUrl: "https://www.${custom.prod.cookieDomain}"
+    backUrl: "https://api.${custom.prod.cookieDomain}"
+  site:
+    cookieDomain: "${custom.dev.cookieDomain}"
+    frontUrl: "${custom.dev.frontUrl}"
+    backUrl: "${custom.dev.backUrl}"
+    name: p-14115-1

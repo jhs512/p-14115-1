@@ -25,11 +25,12 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-h2console")
+    developmentOnly("org.springframework.boot:spring-boot-h2console")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-session-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
