@@ -47,10 +47,8 @@ management:
       show-components: never
       group:
         readiness:
-          # ? "???" ?? + DB ???? ???? Ready
           include: readinessState,db
         liveness:
-          # ? "????"?(?? ??? ?? ??)
           include: livenessState,ping
 custom:
   dev:
@@ -66,3 +64,7 @@ custom:
     frontUrl: "${custom.dev.frontUrl}"
     backUrl: "${custom.dev.backUrl}"
     name: p-14115-1
+  jwt:
+    secretKey: ${CUSTOM__JWT__SECRET_KEY}
+  accessToken:
+    expirationSeconds: "#{60*20}"
